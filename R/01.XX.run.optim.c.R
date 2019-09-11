@@ -1,0 +1,28 @@
+#run.optim.c
+run.optim.c<-function(inits=NULL,mdspec,x,z,LB=log(0.01),UB=log(100),
+                      init.para=NULL,ninter=20,maxsear=100,maxopt=10^5,
+                      para.scale=0.05){
+ if(F){
+   LB<-log(0.01)
+   UB<-log(100)
+   init.para<-NULL
+   ninter<-20
+   maxsear<-100
+   maxopt<-10^5
+   para.scale<-para.scale
+ }#IF
+  nll<-mdspec$NLL
+  if(is.null(inits)){
+    n.neo.para<-nrow(mdspec$cov.link)
+    inits<-rep(0,n.neo.para)
+  }#if(is.null(inits))
+  n.inits<-length(inits)
+  if(is.null(init.para))init.para<-rep(5,n.inits)
+  LB.para<-rep(LB,n.inits)
+  UB.para<-rep(UB,n.inits)
+  #inits.res<-inits.searcher2(nll,LB.para,UB.para,nit=ninter,maxit=maxsear,mdspec=mdspec,x=x,z=z)
+  inits.res<-inits.searcher3(nll,LB.para,UB.para,init.para,nit=ninter,maxit=maxsear,mdspec=mdspec,x=x,z=z)
+  raw.est<-optim(inits.res,nll,mdspec=mdspec,x=x,z=z,method="BFGS",
+                 control=list(trace=1,parscale=rep(para.scale,n.inits),maxit=maxopt),hessian=T)
+  raw.est
+}#run.optim.c

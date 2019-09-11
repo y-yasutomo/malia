@@ -1,0 +1,102 @@
+#dyn.load("MALIA.dll")
+
+NLL_HN_C<-function(para,x,td,divide=100){
+  n<-as.integer(nrow(para))
+  #para[,1]<-exp(para[,1])
+  result<-.C("NLL_HN",
+             xmin=as.double(x[,1]),
+             xmax=as.double(x[,2]),
+             sigma=as.double(para[,1]),
+             td=as.double(td),
+             divide=as.integer(divide),
+             n=n,
+             output=double(1)
+  )
+  result$output
+}
+
+NLL_HR_C<-function(para,x,td,divide=100){
+  n<-as.integer(nrow(para))
+  #para[,1]<-exp(para[,1])
+  para[,2]<-para[,2]+1##exp(para[,2])+1
+  result<-.C("NLL_HR",
+             xmin=as.double(x[,1]),
+             xmax=as.double(x[,2]),
+             sigma=as.double(para[,1]),
+             b=as.double(para[,2]),
+             td=as.double(td),
+             divide=as.integer(divide),
+             n=n,
+             output=double(1)
+  )
+  result$output
+}
+
+NLL_HHN_C<-function(para,x,cp,td,divide=100){
+  n<-as.integer(nrow(para))
+  #para[,1]<-exp(para[,1])
+  #para[,2]<-exp(para[,2])
+  result<-.C("NLL_HHN",
+             xmin=as.double(x[,1]),
+             xmax=as.double(x[,2]),
+             sigma=as.double(para[,1]),
+             delta=as.double(para[,2]),
+             cp=as.double(cp),
+             td=as.double(td),
+             divide=as.integer(divide),
+             n=as.integer(n),
+             output=double(1)
+  )
+  result$output
+}
+
+NLL_HHR_C<-function(para,x,cp,td,divide=100){
+  n<-as.integer(nrow(para))
+  #para[,1]<-exp(para[,1])
+  para[,2]<-para[,2]+1#exp(para[,2])+1
+  #para[,3]<-exp(para[,3])
+  result<-.C("NLL_HHR",
+             xmin=as.double(x[,1]),
+             xmax=as.double(x[,2]),
+             sigma=as.double(para[,1]),
+             b=as.double(para[,2]),
+             delta=as.double(para[,3]),
+             cp=as.double(cp),
+             td=as.double(td),
+             divide=as.integer(divide),
+             n=n,
+             output=double(1)
+  )
+  result$output
+}
+
+NLL.HN<-function(para,mdspec,x,z,divide=100){
+  td<-mdspec$td
+  gx<-mdspec$paleo.gx
+  cov.link<-mdspec$cov.link
+  NLL_HN_C(para.transform(mdspec,x,z,para),x,td,divide=divide)
+}#NLL.HN
+
+NLL.HR<-function(para,mdspec,x,z,divide=100){
+  td<-mdspec$td
+  gx<-mdspec$paleo.gx
+  cov.link<-mdspec$cov.link
+  NLL_HR_C(para.transform(mdspec,x,z,para),x,td,divide=divide)
+}#NLL.HR
+
+NLL.HHN<-function(para,mdspec,x,z,divide=100){
+  cp<-mdspec$cp
+  td<-mdspec$td
+  gx<-mdspec$paleo.gx
+  cov.link<-mdspec$cov.link
+  NLL_HHN_C(para.transform(mdspec,x,z,para),x,cp,td,divide=divide)
+}#NLL.HHN
+
+NLL.HHR<-function(para,mdspec,x,z,divide=100){
+  cp<-mdspec$cp
+  td<-mdspec$td
+  gx<-mdspec$paleo.gx
+  cov.link<-mdspec$cov.link
+  NLL_HHR_C(para.transform(mdspec,x,z,para),x,cp,td,divide=divide)
+}#NLL.HHR
+

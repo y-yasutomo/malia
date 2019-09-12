@@ -6,6 +6,7 @@
 #'@param Rev.name
 #'@param Breaks
 #'
+#'@import openxlsx
 #'@author Tomoki Yasuhara
 #'@export
 #'
@@ -64,6 +65,7 @@ Sight.hand<-function(Data.name,Rev.name,
 #'@param Data.name
 #'@param Rev.name
 #'
+#'@import openxlsx
 #'@author Tomoki Yasuhara
 #'@export
 #'

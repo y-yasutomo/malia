@@ -44,7 +44,7 @@ opts_chunk$set(echo =TRUE,
 library(devtools)
 library(dplyr) #data handling
 
-#install_github("y-yasutomo/maliaver0")
+#install_github("y-yasutomo/malia")
 #calling package in order to analyze marine debris data
 library(malia0)
 ```

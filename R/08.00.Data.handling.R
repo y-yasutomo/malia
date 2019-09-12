@@ -103,7 +103,7 @@ Effort.hand<-function(Data.name,Rev.name){
   df$leg.length<-leg.length
 
   csv.list<-list.files(getwd(),"effort.csv")
-  ind<-paste(Rev.name,"effort.csv",sep="")%in%csv.list
+  ind<-paste(Rev.name,".effort.csv",sep="")%in%csv.list
   if(!ind){
     cat("\n",paste(Rev.name,".effort.csv",sep=""),"was created.")
     write.csv(df,paste(Rev.name,".effort.csv",sep=""),row.names=F)

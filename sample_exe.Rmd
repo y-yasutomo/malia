@@ -1,0 +1,221 @@
+---
+title: "Marine Litter Analysis Manual"
+output: github_document
+  # df_print: paged
+---
+
+```{r initKnitr, echo=F}
+library(knitr)
+library(rmarkdown)
+options(max.print="90")
+opts_chunk$set(echo =TRUE,
+               eval=TRUE,
+               cache=!TRUE,
+               prompt=FALSE,
+               tidy=FALSE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE,
+               results= 'markup',
+               fig.margin=TRUE, 
+               fig.height=5, 
+               fig.width=8
+)
+```
+
+\newpage
+
+# 1. Introduction
+We'd like to demonstrate how marine litter analyses are conducted.
+In the analysis, ---expl
+
+# 2. Prerequisite
+## 2.1 Installation of packages
+If the follwing pacakges have not been installed, please execute next commented lines first.
+```{r}
+#install.packages("devtools")
+#install.packages("dplyr")
+library(devtools)
+library(dplyr)
+
+#install_github("y-yasutomo/malia")
+#calling package in order to analyze marine debris data
+library(malia)
+```
+
+# 3. See Data and set up of estimation
+## 3.1 Data handling 
+Create data for malia package
+Reading 'raw' data (at first time)
+Sighting data
+```{r}
+#Designate data name
+#Data.name<-"おしょろ丸目視まとめC056"
+#Rev.name<-"O18y1"
+#Sight.hand(Data.name,Rev.name)
+```
+Effort data
+```{r}
+#Designate data name
+#Data.name<-"レグ番号順 おしょろC056"
+#Rev.name<-"O18y1"
+#Effort.hand(Data.name,Rev.name)
+```
+
+
+## 3.2 Data visualization 
+Survey track line
+```{r}
+#Designate voyage name
+Vname<-"O18y1"
+survey.plot(read.csv(paste(Vname,".effort.csv",sep="")))
+```
+
+## 3.3 Set up of estimation
+Simple estimation using MALIA function
+Reading data
+```{r}
+Sight.Data<-read.csv(paste(Vname,".debris.csv",sep=""))
+Effort.Data<-read.csv(paste(Vname,".effort.csv",sep=""))
+```
+
+## 3.4 Estimation
+We shall estimate density of 'EPS' by 'MALIA' function
+```{r}
+tmp.Data<-Sight.Data %>%filter(type == "EPS")
+res<-MALIA(tmp.Data,Effort.Data,key="hn",td=200)
+```
+
+Densities in each leg
+```{r}
+leg.D.plot(res$leg.D.obs$leg.result,xl=c(120,160),yl=c(20,50),save=F,Type="EPS")
+```
+
+## 3.5 Using full data 
+SDAM function can conduct whole analysis
+i.e) estimate detection function, calculate densities in each debris type, covariate and detection function
+As it takes some time to finish all trials, we use already created results for mapping, model selection and making table.
+```{r}
+#res<-SDAM(Voyage.name=Vname,COVARIATE = c("conv", "occo","weather", "size"), key.list = c("hn","hr", "hhn", "hhr"),td=200,cp=10)
+#Reading result object
+res<-readRDS(paste(Vname,".result.obj",sep=""))
+```
+
+# 4. Result handling
+## 4.1 Drawing maps
+Maps with trackline and estimated density
+```{r}
+#let's see type 'EPS'
+leg.D.res<-res$hhr$weather$EPS$leg.D.obs$leg.result
+leg.D.plot(leg.D.res,save=F,Type='EPS')
+```
+
+Density of "EPS" by grid
+```{r}
+ grid.D.res<-res$hhr$weather$EPS$grid.D.res
+ grid.D.plot(grid.D.res,save=F,Type='EPS')
+```
+
+## 4.2 Model selection
+model summary
+```{r}
+ aic.mat<-aic.summary(res)
+ aic.mat$EPS
+```
+
+model.extract function can extract best models in each debris type easily from SDAM result
+```{r}
+ best.model<-model.extract(aic.mat,res) 
+ best.model$best.mat
+```
+
+## 4.3 Creating table
+Summary of densities by leg
+```{r}
+ leg.table<-leg.D.table(best.model$best.list)
+ head(leg.table)
+ #write.xlsx(leg.table,file=paste(table.pass,"leg.D.table.xlsx",sep=""),row.names=F)
+```
+ 
+Summary of densities by grid
+```{r}
+ grid.table<-grid.D.table(best.model$best.list)
+ head(grid.table)
+ #write.xlsx(grid.table,file=paste(table.pass,"grid.D.table.xlsx",sep=""),row.names=F)
+```
+
+Summary of densities by area
+```{r}
+ area.table<-area.D.table(best.model$best.list)
+ head(area.table)
+ #write.xlsx(area.table,file=paste(table.pass,"area.D.table.xlsx",sep=""),row.names=F)
+```
+
+#5. Ar and Nt products
+##5.1. Classify each debris into categories
+ls. function can sum up artificial and natural products
+```{r}
+ Ar<-c("FGN","FGF","FGO","EPS","PBA","PBO","FP","PC","G","M","W","UO")
+ Nt<-c("SW","DW","NO")
+ An.table<-ls.(leg.table,Voyage.name,Ar,Nt)
+ head(An.table)
+```
+
+Plot of Artificial product
+```{r}
+ Artificial.leg<-An.table %>%  select(Leg.No.,Leg.Length,Lat.Start,Lon.Start,Lat.End,Lon.End,Artificial_Density) %>% rename(Density=Artificial_Density)
+ leg.D.plot(Artificial.leg,save=F)
+ Artificial.grid<-grid.D(Artificial.leg)
+ grid.D.plot(Artificial.grid,save = F)
+```
+ 
+Plot of Natural product
+```{r}
+Natural.leg<-An.table %>%  select(Leg.No.,Leg.Length,Lat.Start,Lon.Start,Lat.End,Lon.End,Natural_Density) %>% rename(Density=Natural_Density)
+ leg.D.plot(Natural.leg,save=F)
+ Natural.grid<-grid.D(Natural.leg)
+ grid.D.plot(Natural.grid,save = F)
+```
+
+## 5.2. Combining results
+Combining results across multiple surveys. In this procedure, it is necessary result objects has to already be created.
+Survey legs
+```{r}
+ vname<-c("S18y4","O18y1","K18y1")
+ tmp<-data.frame()
+for(i in 1:length(vname)){
+  Effort.Data<-read.csv(paste(vname[i],".effort.csv",sep=""))
+  Effort.Data$voyage_name<-vname[i]
+  tmp<-rbind(tmp,Effort.Data)
+}
+ survey.plot(tmp,multi=T)
+```
+
+Combine leg D results
+In the leg.D.comb function, model selection and extraction of the best model are conducted.
+```{r}
+ tmp<-leg.D.comb(vname) 
+#let's see type "DW"
+ tmp2<-grid.D(tmp$DW)
+ grid.D.plot(tmp2,save = F)
+#area D
+ tmp3<-area.D(tmp$DW)
+ tmp3$area.density
+```
+
+Artificial and Natural products
+Artificial product
+```{r}
+ tmp<-vanc(vname)
+ leg.D.plot(tmp$Ar.leg.D,save=F)
+ Artificial.grid<-grid.D(tmp$Ar.leg.D)
+ grid.D.plot(Artificial.grid,save = F)
+```
+
+Natural product
+```{r}
+ leg.D.plot(tmp$Nt.leg.D,save=F)
+ Natural.grid<-grid.D(tmp$Nt.leg.D)
+ grid.D.plot(Natural.grid,save = F)
+```
+

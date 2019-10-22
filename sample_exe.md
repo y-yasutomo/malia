@@ -28,7 +28,7 @@ library(malia)
 
 ## 3.1 Data handling
 
-Create data for malia package Reading ‘raw’ data (at first time)
+Create data for malia package Reading ‘raw’ data (at first time)  
 Sighting data
 
 ``` r
@@ -299,7 +299,10 @@ Summary of densities by area
  #write.xlsx(area.table,file=paste(table.pass,"area.D.table.xlsx",sep=""),row.names=F)
 ```
 
-\#5. Ar and Nt products \#\#5.1. Classify each debris into categories
+# 5\. Ar and Nt products
+
+## 5.1 Classify each debris into categories
+
 ls. function can sum up artificial and natural products
 
 ``` r
@@ -360,7 +363,7 @@ Natural.leg<-An.table %>%  select(Leg.No.,Leg.Length,Lat.Start,Lon.Start,Lat.End
 
 ![](sample_exe_files/figure-gfm/unnamed-chunk-18-2.png)<!-- -->
 
-## 5.2. Combining results
+## 5.2 Combining results
 
 Combining results across multiple surveys. In this procedure, it is
 necessary result objects has to already be created. Survey legs

@@ -2,6 +2,7 @@
 - Marine Litter Analysis with R
 - 東京海洋大学資源解析学研究室で作成した，目視調査(ライントランセクト法)による海洋漂流ごみの密度推定を行うパッケージです
 ## 必要条件
+- R(>= 3.5.2)以降のバージョンである必要があります
 -  [Rtools](https://cran.r-project.org/bin/windows/Rtools/)がインストールされている必要があります
 ## 使い方
 ```

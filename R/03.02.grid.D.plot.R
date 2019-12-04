@@ -9,7 +9,7 @@
 #'@param save defoult is set as false, if true, the figure will be saves in current directory
 #'
 #'@import ggplot2
-#'@author Tomoki Yasuhara
+#'@author Hiroaki Murata 
 #'@export
 #'
 #'@examples

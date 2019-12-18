@@ -95,12 +95,20 @@ if(F){
  #saveRDS(res,"Sample.malia.obj")
 }
 
-#
-#factor arrange
+##05.01 factor arrange
+#'Rearrange categorical levels
+#'@description Inner function of SDAM.
+#'
+#'@param Sight.Data
+#'@param colist
+#'
+#'@author Tomoki Yasuhara
+#'@export
+#'
+#'@examples
+#'
  factor.arrange<-function(Sight.Data,colist){
-  if(F){
-    Sight.Data<-Sight.
-  }
+
    if(is.null(colist)){
      return(Sight.Data)
    }else{
@@ -120,11 +128,4 @@ for(i in 1:length(colist)){
 }#for(i)
    return(Sight.Data)
      }
-}#factor.arrenge
-
-
-
-
-
-
-
+}#factor.arrange

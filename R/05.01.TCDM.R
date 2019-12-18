@@ -95,9 +95,8 @@ if(F){
  #saveRDS(res,"Sample.malia.obj")
 }
 
-##05.01 factor arrange
 #'Rearrange categorical levels
-#'@description Inner function of SDAM.
+#'@description Rearrange categorical data.
 #'
 #'@param Sight.Data
 #'@param colist

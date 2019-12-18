@@ -27,5 +27,5 @@ Plot densities of grids
 
 }
 \author{
-Tomoki Yasuhara
+Hiroaki Murata
 }

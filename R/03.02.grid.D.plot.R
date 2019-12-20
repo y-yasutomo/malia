@@ -30,7 +30,7 @@ grid.D.plot<-function(grid.D.res,xl=c(120,180),yl=c(10,50),
     grid.D.res$Density[grid.D.res$Density>100]<-100
     tmp.plot<-ggplot()+geom_rect(data=grid.D.res[!is.nan(grid.D.res$Density),],aes(xmin=lon.min,xmax=lon.max,ymin=lat.min,ymax=lat.max,fill=Density))+
       geom_map(data=values2,aes(map_id=id),map=positions2,fill="gray40")+
-      xlim(xl)+ylim(yl)+coord_fixed(ratio=1)+
+      xlim(xl)+ylim(yl)+coord_fixed(ratio=1)+labs(x="",y="")+
       scale_fill_gradientn(colours=my.cols,limits=c(0,100),breaks=my.breaks,labels=my.labels)+
       guides(fill=guide_legend(title=expression(Density(ind/km^2)),reverse=T))+
       theme(

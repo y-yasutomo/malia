@@ -11,7 +11,7 @@ devtools::install_github("y-yasutomo/malia")　#パッケージのインスト�
 library(malia) #呼び出し
 ```
 ## マニュアル
-- (https://y-yasutomo.github.io/malia/)
+- (https://y-yasutomo.github.io/malia/docs/index.html)
 
 ## 参考文献
 ライントランセクト法

@@ -13,7 +13,7 @@
 #'@examples
 #'
 survey.inf<-function(Sight.Data,Effort.Data,
-                     Arttificail=c("FGN","FGF","FGO","EPS","PBA","PBO","FP","PC","G","M","W","UO"),
+                     Artificial=c("FGN","FGF","FGO","EPS","PBA","PBO","FP","PC","G","M","W","UO"),
                      Natural=c("SW","DW","NO")){
 
   #Artificial<-c("FGN","FGF","FGO","EPS","PBA","PBO","FP","PC","G","M","W","UO")

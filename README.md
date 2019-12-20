@@ -12,7 +12,8 @@ library(malia) #呼び出し
 ```
 ## マニュアル
 - [簡易版](https://y-yasutomo.github.io/malia/docs/index.html)
-- [関数の詳細](https://y-yasutomo.github.io/malia/docs/functions.html)
+- [関数の詳細](https://y-yasutomo.github.io/malia/docs/functions.html)  
+ (作成途中です)
 
 ## 参考文献
 ライントランセクト法

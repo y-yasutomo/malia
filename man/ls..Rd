@@ -4,8 +4,8 @@
 \alias{ls.}
 \title{Combine natural and artificial individuals into same category}
 \usage{
-ls.(leg.table, Voyage.name, Ar = c("FGN", "FGF", "FGO", "EPS", "PBA",
-  "PBO", "FP", "PC", "G", "M", "W", "UO"), Nt = c("SW", "DW", "NO"))
+ls.(leg.table, Ar = c("FGN", "FGF", "FGO", "EPS", "PBA", "PBO", "FP",
+  "PC", "G", "M", "W", "UO"), Nt = c("SW", "DW", "NO"))
 }
 \arguments{
 \item{Ar}{character vector of artificial product}

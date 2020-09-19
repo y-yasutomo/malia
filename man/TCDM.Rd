@@ -4,9 +4,9 @@
 \alias{TCDM}
 \title{Estimate detection function}
 \usage{
-TCDM(Voyage.name, type = NULL, key, td, cp = 10, colist = NULL,
-  inits = NULL, area = T, para.scale = 0.05, rescale = 10^(-3),
-  ignore = 0.01)
+TCDM(Voyage.name, Sight.Data, Effort.Data, type = NULL, key, td,
+  cp = 10, colist = NULL, inits = NULL, area = T,
+  para.scale = 0.05, rescale = 10^(-3), ignore = 0.01)
 }
 \arguments{
 \item{area}{}

@@ -4,12 +4,26 @@
 \alias{SDAM}
 \title{Estimate detection function and calculate density}
 \usage{
-SDAM(Voyage.name, COVARIATE = c("conv", "occo", "weather", "size"),
-  key.list = c("hn", "hr", "hhn", "hhr"), td = 200, cp = 10,
-  area = T, control = list(para.scale = 0.05, rescale = 10^(-3), ignore
-  = 0.01), inits = NULL, save = T)
+SDAM(Voyage.name, Sight.Data, Effort.Data, COVARIATE = c("conv", "occo",
+  "weather", "size"), key.list = c("hn", "hr", "hhn", "hhr"), td = 200,
+  cp = 10, area = T, control = list(para.scale = 0.05, rescale =
+  10^(-3), ignore = 0.01), inits = NULL, save = T)
 }
 \arguments{
+\item{Voyage.name}{name of voyage}
+
+\item{Sight.Data}{Sighting data of debris}
+
+\item{Effort.Data}{Effort data of survey}
+
+\item{COVARIATE}{character vector of covariate}
+
+\item{key.list}{character vector of detection function to be used}
+
+\item{td}{truncated distance}
+
+\item{cp}{cut point}
+
 \item{save}{}
 }
 \description{

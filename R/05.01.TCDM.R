@@ -3,6 +3,8 @@
 #'@description Inner function of SDAM.
 #'
 #'@param Voyage.name
+#'@param Sight.Data
+#'@param Effort.Data
 #'@param type
 #'@param key
 #'@param td
@@ -17,7 +19,7 @@
 #'@examples
 #'
 
-TCDM<-function(Voyage.name,type=NULL,key,td,cp=10,colist=NULL,inits=NULL,area=T,
+TCDM<-function(Voyage.name,Sight.Data,Effort.Data,type=NULL,key,td,cp=10,colist=NULL,inits=NULL,area=T,
                para.scale=0.05,rescale=10^(-3),ignore=0.01){
   if(F){
     Voyage.name
@@ -42,8 +44,6 @@ TCDM<-function(Voyage.name,type=NULL,key,td,cp=10,colist=NULL,inits=NULL,area=T,
     names(Effort.Data)[1]<-"Leg.number"
   }
 
-  Sight.Data<-read.csv(paste(Voyage.name,".debris.csv",sep=""))
-  Effort.Data<-read.csv(paste(Voyage.name,".effort.csv",sep=""))
 
   if(is.list(type)){
     Sight<-vector("list",length(type))
@@ -70,29 +70,29 @@ TCDM<-function(Voyage.name,type=NULL,key,td,cp=10,colist=NULL,inits=NULL,area=T,
     #res.<-try(MALIA(Sight.,Effort.Data,key,td,cp=cp,colist=colist,
     #            para.scale=para.scale,rescale=rescale,ignore=ignore),silent=T)
     res.<-MALIA(Sight.,Effort.Data,key,td,cp=cp,colist=colist,inits=inits,area=area,
-          para.scale=para.scale,rescale=rescale,ignore=ignore)
+                para.scale=para.scale,rescale=rescale,ignore=ignore)
 
     RESULT.obj[[i]]<-res.
-    }#for(i)
+  }#for(i)
 
-   names(RESULT.obj)<-names(Sight)
+  names(RESULT.obj)<-names(Sight)
 
   for(i in 1:length(Sight)){
-   voyage.inf<-list(Voyage.name=Voyage.name,debris.type=names(Sight)[i])
-   RESULT.obj[[i]]$Voyage.inf<-voyage.inf
-   }
-   RESULT.obj
+    voyage.inf<-list(Voyage.name=Voyage.name,debris.type=names(Sight)[i])
+    RESULT.obj[[i]]$Voyage.inf<-voyage.inf
+  }
+  RESULT.obj
 }#TCDM
 
 if(F){
- Voyage.name<-"s14y1"
- key<-"hn"
- td<-200
+  Voyage.name<-"s14y1"
+  key<-"hn"
+  td<-200
 
- res<-SDAM(Voyage.name,type=NULL,key,td,cp=10,colist=NULL,
-              para.scale=0.5,rescale=10^(-3),ignore=0.01)
- res$DW$Voyage.inf
- #saveRDS(res,"Sample.malia.obj")
+  res<-SDAM(Voyage.name,type=NULL,key,td,cp=10,colist=NULL,
+            para.scale=0.5,rescale=10^(-3),ignore=0.01)
+  res$DW$Voyage.inf
+  #saveRDS(res,"Sample.malia.obj")
 }
 
 #'Rearrange categorical levels
@@ -106,25 +106,25 @@ if(F){
 #'
 #'@examples
 #'
- factor.arrange<-function(Sight.Data,colist){
+factor.arrange<-function(Sight.Data,colist){
 
-   if(is.null(colist)){
-     return(Sight.Data)
-   }else{
-for(i in 1:length(colist)){
-  tmp<-Sight.Data[,colist[i]]
-  if(is.numeric(tmp))next
-  Table<-table(tmp)
-  if(sum(Table==0)>0){
-    Ori.levels<-levels(tmp)
-    rm.ind<-which(Table==0)
-    Rev.levels<-Ori.levels[-rm.ind]
-    Sight.Data[,colist[i]]<-factor(Sight.Data[,colist[i]],levels=Rev.levels)
+  if(is.null(colist)){
+    return(Sight.Data)
   }else{
-    next
-  }
+    for(i in 1:length(colist)){
+      tmp<-Sight.Data[,colist[i]]
+      if(is.numeric(tmp))next
+      Table<-table(tmp)
+      if(sum(Table==0)>0){
+        Ori.levels<-levels(tmp)
+        rm.ind<-which(Table==0)
+        Rev.levels<-Ori.levels[-rm.ind]
+        Sight.Data[,colist[i]]<-factor(Sight.Data[,colist[i]],levels=Rev.levels)
+      }else{
+        next
+      }
 
-}#for(i)
-   return(Sight.Data)
-     }
+    }#for(i)
+    return(Sight.Data)
+  }
 }#factor.arrange

@@ -117,6 +117,81 @@ Effort.hand<-function(Data.name,Rev.name){
   }
 }#effort.handling
 
+#08.01 Data check before conducting analysis
+#'Check data type
+#'@description Check and redefine data type for covariate
+#'
+#'@param Sight.Data Sighting data of debris
+#'@param Effort.Data Effort data of survey
+#'@param numeric_covariate character vector of covariate to be used as numeric
+#'@param factor_covariate character vector of covariate to be used as factor
+#'
+#'@author Tomoki Yasuhara
+#'@export
+#'
+#'@examples
+#'
+Data.check<-function(Sight.Data,
+                     numeric_covariate=c("occo"),
+                     factor_covariate=c("weather","size")){
+  ###
+  if(F){
+    Sight.Data<-read.csv(paste(Voyage.name,".debris.csv",sep=""))
+    Sight.Data$type<-as.character(Sight.Data$type)
+    Sight.Data$weather<-as.character(Sight.Data$weather)
+    Sight.Data$size<-as.character(Sight.Data$size)
+    Sight.Data$occo<-as.character(Sight.Data$occo)
+    Sight.Data$max <- as.character(Sight.Data$max)
+    Sight.Data$min <- as.character(Sight.Data$min)
+
+    numeric_covariate=c("occo")
+    factor_covariate=c("weather","size")
+
+    Data.check(Sight.Data)
+  }#IF(F)
+  ###
+
+  #check numeric distance
+  if(!(is.numeric(Sight.Data$max) &&  is.numeric(Sight.Data$min))){
+    stop("max and min shoule be numeric",call.=F)
+  }
+
+  #check numeric covariate
+  idx <- logical()
+  for(i in 1:length(numeric_covariate)){
+    if(!(is.numeric(Sight.Data[,numeric_covariate[i]]))){
+      idx <- c(idx ,1)
+    }else{
+      idx <- c(idx ,0)
+    }
+  }
+
+  if(sum(idx)>0){
+    message<-paste(numeric_covariate[which(idx==1)],"should be numeric.")
+    stop(paste(message,collapse = "\n"),call.=F)
+  }
+
+  #check debris type
+  if(!(is.factor(Sight.Data$type))){
+    stop("type should be factor",call.=F)
+  }
+
+  #check factor covariate
+  idx <- logical()
+  for(i in 1:length(factor_covariate)){
+    if(!(is.factor(Sight.Data[,factor_covariate[i]]))){
+      idx <- c(idx ,1)
+    }else{
+      idx <- c(idx ,0)
+    }
+  }
+
+  if(sum(idx)>0){
+    message<-paste(factor_covariate[which(idx==1)],"should be factor.")
+    stop(paste(message,collapse = "\n"),call.=F)
+  }
+
+}#Data.check
 
 
 bin<-function(x,Breaks=c(0,5,10,15,20,25,30,35,40,45,50,75,100,150,200)){

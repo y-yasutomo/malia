@@ -4,7 +4,7 @@
 \alias{survey.inf}
 \title{Return survey information}
 \usage{
-survey.inf(Sight.Data, Effort.Data, Arttificail = c("FGN", "FGF", "FGO",
+survey.inf(Sight.Data, Effort.Data, Artificial = c("FGN", "FGF", "FGO",
   "EPS", "PBA", "PBO", "FP", "PC", "G", "M", "W", "UO"),
   Natural = c("SW", "DW", "NO"))
 }
@@ -13,9 +13,9 @@ survey.inf(Sight.Data, Effort.Data, Arttificail = c("FGN", "FGF", "FGO",
 
 \item{Effort.Data}{.effort data}
 
-\item{Natural}{character vector of natural product}
-
 \item{Artificial}{character vector of artificial product}
+
+\item{Natural}{character vector of natural product}
 }
 \description{
 Return debris and voyage information as a list type object

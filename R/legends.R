@@ -22,8 +22,13 @@ malia.label<-function(tmp.plot){
   #x.tmp<-pinf$layout$panel_ranges[[1]]$x.major_source
   #y.tmp<-pinf$layout$panel_ranges[[1]]$y.major_source
 
-  x.tmp<-pinf$layout$panel_params[[1]]$x.major_source
-  y.tmp<-pinf$layout$panel_params[[1]]$y.major_source
+  #x.tmp<-pinf$layout$panel_params[[1]]$x.major_source
+  #y.tmp<-pinf$layout$panel_params[[1]]$y.major_source
+
+  #2020/09/21
+  x.tmp<-pinf$layout$panel_params[[1]]$x.sec$breaks
+  y.tmp<-pinf$layout$panel_params[[1]]$y.sec$breaks
+
 
   tmp.plot+scale_x_continuous(limits=range(x.tmp),breaks=x.tmp,
                               labels=ifelse(x.tmp<180,parse(text=paste(x.tmp,"*degree*E",sep="")),

@@ -2832,6 +2832,9 @@ survey.plot(read.csv(paste(Vname,&quot;.effort.csv&quot;,sep=&quot;&quot;)))</co
 <p>上で作成した2つのデータを読み込みます</p>
 <pre class="r"><code>Sight.Data&lt;-read.csv(paste(Vname,&quot;.debris.csv&quot;,sep=&quot;&quot;))
 Effort.Data&lt;-read.csv(paste(Vname,&quot;.effort.csv&quot;,sep=&quot;&quot;))</code></pre>
+<p>観測データのデータ型を確認します <code>Data.check()</code>関数の引数に観測データを与えます<br />
+この関数で，解析に用いる列のデータ型のチェックを行います． 問題がなければ何も返ってきません</p>
+<pre class="r"><code>Data.check(Sight.Data)</code></pre>
 </div>
 <div id="section-7" class="section level2">
 <h2>3.4 密度推定</h2>
@@ -2855,9 +2858,9 @@ converged</code></pre>
 <h2>3.5 全データの解析</h2>
 <p>関数<code>SDAM()</code>で全データの解析を行えます．<br />
 この関数では，すべてのごみの種類について，4種類の発見関数・共変量をそれぞれ用いた(計16種類)解析を行います.<br />
-計算には30程度の時間がかかります.<br />
+計算には30程度の時間がかか ます.<br />
 計算が終了すると,<code>航海名.result.obj</code>というファイルが作成されます． 以下は，既に作成された結果を用いて結果のハンドリングを行います.</p>
-<pre class="r"><code>#res&lt;-SDAM(Voyage.name=Vname,COVARIATE = c(&quot;conv&quot;, &quot;occo&quot;,&quot;weather&quot;, &quot;size&quot;), key.list = c(&quot;hn&quot;,&quot;hr&quot;, &quot;hhn&quot;, &quot;hhr&quot;),td=200,cp=10)
+<pre class="r"><code>#res&lt;-SDAM(Voyage.name=Vname,Sight.Data=Sight.Data,Effort.Data=Effort.Data,COVARIATE = c(&quot;conv&quot;, &quot;occo&quot;,&quot;weather&quot;, &quot;size&quot;), key.list = c(&quot;hn&quot;,&quot;hr&quot;, &quot;hhn&quot;, &quot;hhr&quot;),td=200,cp=10)
 #結果のオブジェクトの読み込み
 res&lt;-readRDS(paste(Vname,&quot;.result.obj&quot;,sep=&quot;&quot;))</code></pre>
 </div>

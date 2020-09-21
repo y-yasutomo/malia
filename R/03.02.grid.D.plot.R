@@ -9,7 +9,7 @@
 #'@param save defoult is set as false, if true, the figure will be saves in current directory
 #'
 #'@import ggplot2
-#'@author Hiroaki Murata 
+#'@author Hiroaki Murata
 #'@export
 #'
 #'@examples
@@ -21,7 +21,7 @@ grid.D.plot<-function(grid.D.res,xl=c(120,180),yl=c(10,50),
   my.breaks<-c(0,25,50,75,100)
   my.labels<-c("0","25","50","75","100+")
 
-    world.map2 <- map_data ("world")
+    world.map2 <- ggplot2::map_data ("world")
     values2<-data.frame(id=factor(labels(table(world.map2$group))[[1]]),value=1:length(table(world.map2$group)))
     positions2<-data.frame(id=factor(world.map2$group),x=world.map2$long,y=world.map2$lat)
     posi<-c(0.02,0.98)

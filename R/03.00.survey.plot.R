@@ -19,7 +19,7 @@ survey.plot<-function(Effort.Data,xl=c(120,180),yl=c(10,50),col="orange",myfill=
                        multi=F){
 
 
-  world.map2 <- map_data("world")
+  world.map2 <- ggplot2::map_data("world")
   values2<-data.frame(id=factor(labels(table(world.map2$group))[[1]]),value=1:length(table(world.map2$group)))
   positions2<-data.frame(id=factor(world.map2$group),x=world.map2$long,y=world.map2$lat)
   #posi<-c(0.02,0.98)
